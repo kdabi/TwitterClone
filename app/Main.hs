@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import API.Server (twitterClone)
 
 main :: IO ()
-main = someFunc
+main = twitterClone
