@@ -1,12 +1,22 @@
 module API.Server where
 
+import API.Login (login)
 import Control.Monad (msum)
-import Control.Monad.State (evalStateT)
-import Happstack.Server (ServerPartT, Method(GET, HEAD, POST), method, dir, nullDir, ok, nullConf, simpleHTTP, toResponse, mapServerPartT)
+import Happstack.Server 
 
-import HTML.Home (helloBlaze, helloJMacro, handlers, JMacroPart)
 
-twitterClone = simpleHTTP nullConf $ flatten handlers
-            where
-                flatten :: JMacroPart a -> ServerPartT IO a
-                flatten = mapServerPartT (flip evalStateT 0)
+router =
+       msum [
+              login
+            ]
+
+newHTTPHandler :: Int -> IO ()
+newHTTPHandler port_ = 
+   let conf = Conf { port = port_
+                   , validator = Nothing
+                   , logAccess = Just logMAccess
+                   , timeout = 30
+                   , threadGroup = Nothing
+                   }
+   in simpleHTTP conf router
+
