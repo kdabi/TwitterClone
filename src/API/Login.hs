@@ -3,6 +3,7 @@
 {-# LANGUAGE DeriveGeneric  #-}
 {-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE OverloadedStrings  #-}
+{-# LANGUAGE NamedFieldPuns #-}
 
 module API.Login where
 
@@ -14,6 +15,8 @@ import Data.Data (Data, Typeable)
 import GHC.Generics
 import Happstack.Server
 import Happstack.Server.Types
+import qualified Network.HTTP as H
+import qualified Data.ByteString.Char8 as D
 
 data LoginForm = LoginForm { username :: String
                            , password :: String } 
@@ -29,11 +32,22 @@ getBody = do
             Just rqbody -> return . unBody $ rqbody
             Nothing -> return ""
 
+get :: String -> IO String
+get url = H.simpleHTTP (H.getRequest url) >>= H.getResponseBody
+
+validateUser :: LoginForm -> Bool
+validateUser (LoginForm {username, password}) | ((username == "foo") && (password == "bar")) = True
+                                              | otherwise = False 
+
 login :: ServerPartT IO Response
 login = dir "login" $ do
         method POST
         body <- getBody
         liftIO $ putStrLn $ show body -- to print
+        liftIO $ (get "http://localhost/user.html")
         let form  = fromJust $ A.decode body :: LoginForm
-        ok $ toResponse $ A.encode form
+            flag = validateUser form
+        if flag then ok $ toResponse $ A.encode form
+        else ok $ toResponse (D.pack "h")
+
 

@@ -149,9 +149,13 @@ input[type=submit]:active {
      url: "http://localhost/api/login",
      data: JSON.stringify({"username": username, "password": password}),
      dataType: "json",
-     success: function(resultData) {
-       console.log(resultData);
-       alert("Submitted");
+     success: function(msg) {
+       alert("SUBMITTED");
+       var str1 = "user.html?username=" ;
+       window.location = str1.concat(username);
+     },
+     error: function(){
+        window.location = "login_error.html";
      }
    });
  };

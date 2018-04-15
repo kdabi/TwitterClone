@@ -1,6 +1,6 @@
 module Main where
 
-import API.Server (twitterClone)
+import API.Server (newHTTPHandler)
 
 main :: IO ()
-main = twitterClone
+main = newHTTPHandler 8080
