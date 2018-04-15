@@ -17,6 +17,7 @@ import Happstack.Server
 import Happstack.Server.Types
 import qualified Network.HTTP as H
 import qualified Data.ByteString.Char8 as D
+import DB.Authenticate (authenticate)
 
 data LoginForm = LoginForm { username :: String
                            , password :: String } 
@@ -36,7 +37,7 @@ get :: String -> IO String
 get url = H.simpleHTTP (H.getRequest url) >>= H.getResponseBody
 
 validateUser :: LoginForm -> Bool
-validateUser (LoginForm {username, password}) | ((username == "foo") && (password == "bar")) = True
+validateUser (LoginForm {username, password}) | (True) = True
                                               | otherwise = False 
 
 login :: ServerPartT IO Response
@@ -45,6 +46,7 @@ login = dir "login" $ do
         body <- getBody
         liftIO $ putStrLn $ show body -- to print
         liftIO $ (get "http://localhost/user.html")
+        liftIO $ authenticate "foo" "bar"
         let form  = fromJust $ A.decode body :: LoginForm
             flag = validateUser form
         if flag then ok $ toResponse $ A.encode form

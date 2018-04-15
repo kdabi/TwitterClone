@@ -24,6 +24,7 @@ dependencies:
 - base >= 4.7 && < 5
 - blaze-html
 - bytestring
+- conduit
 - containers
 - happstack-hsp
 - happstack-jmacro
@@ -33,9 +34,15 @@ dependencies:
 - hsx-jmacro
 - HTTP
 - jmacro
+- mongoDB
 - mtl >=2.0 && <2.3
 - network
+- persistent
+- persistent-sqlite
+- persistent-template
 - random
+- sqlite-simple
+- transformers
 
 library:
   source-dirs: src
