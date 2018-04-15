@@ -36,9 +36,10 @@ getBody = do
 get :: String -> IO String
 get url = H.simpleHTTP (H.getRequest url) >>= H.getResponseBody
 
-validateUser :: LoginForm -> Bool
-validateUser (LoginForm {username, password}) | (True) = True
-                                              | otherwise = False 
+validateUser :: LoginForm -> IO Bool
+validateUser (LoginForm {username, password}) = do 
+    len <- (authenticate username password)
+    (if (len == 1) then (return True) else (return False))
 
 login :: ServerPartT IO Response
 login = dir "login" $ do
@@ -46,9 +47,8 @@ login = dir "login" $ do
         body <- getBody
         liftIO $ putStrLn $ show body -- to print
         liftIO $ (get "http://localhost/user.html")
-        liftIO $ authenticate "foo" "bar"
-        let form  = fromJust $ A.decode body :: LoginForm
-            flag = validateUser form
+        let form =  fromJust $ A.decode body :: LoginForm
+        flag <- liftIO $ validateUser form
         if flag then ok $ toResponse $ A.encode form
         else ok $ toResponse (D.pack "h")
 
