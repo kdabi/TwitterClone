@@ -171,9 +171,9 @@ input[type=submit]:active {
         <form onsubmit="event.preventDefault(); tryLogin()" action="#">
             <label for="loginmsg" style="color:hsla(0,100%,50%,0.5); font-family:"Helvetica Neue",Helvetica,sans-serif;"><?php  echo @$_GET['msg'];?></label>
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" maxlength="10">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" name="password" maxlength="20">
             <div id="lower">
                 <input type="checkbox"><label class="check" for="checkbox">Keep me logged in</label>
                 <input type="submit" value="Login">

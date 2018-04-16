@@ -139,7 +139,29 @@ input[type=submit]:active {
         temp = queries[i].split('=');
         params[temp[0]] = temp[1];
     }
-
+function tryPost() {
+    let username = params["username"];
+    let post = document.getElementById("post").value;
+    var d = new Date();
+    let time = d.toString();
+    console.log(username);
+    console.log(post);
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/post",
+      data: JSON.stringify({"username": username, "post": post, "time": time}),
+      dataType: "json",
+      success: function(msg) {
+        alert("Posted");
+        var str1 = "user.html?username=" ;
+        window.location = str1.concat(username);
+		location.reload();
+      },
+      error: function(){
+         alert("Post Failed");
+      }
+    });
+  };
 </script>
 
 </head>
@@ -153,6 +175,17 @@ input[type=submit]:active {
             document.getElementById("user").innerHTML = "Dear ".concat(params["username"]);
         </script>
         <h2><a href="login.html">LogOut</a></h2>
+        <div id="container">
+         <h2>Whats on your mind!!</h2>
+         <form onsubmit="event.preventDefault(); tryPost()" action="#">
+             <label for="loginmsg" style="color:hsla(0,100%,50%,0.5);      font-family:"Helvetica Neue",Helvetica,sans-serif;"><?php  echo @         $_GET['msg'];?></label>
+             <label for="post">Post:</label>
+             <textarea rows="4" cols="30" form="usrform" id="post" name="post" maxlength="500">Enter text here...</textarea>
+             <div id="lower">
+                 <input type="submit" value="POST">
+             </div>
+         </form>
+     </div><!--/ container-->
     <!-- End Page Content -->
 </body>
 </html>
