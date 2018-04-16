@@ -171,6 +171,29 @@ function tryPost() {
     });
   };
 </script>
+</head>
+
+<body onload="getPosts()">
+
+    <!-- Begin Page Content -->
+        <h1>Welcome</h1>
+        <div id="user">Dear </div>
+        <script>
+            document.getElementById("user").innerHTML = "Dear ".concat(params["username"]);
+        </script>
+        <h2><a href="login.html">LogOut</a></h2>
+        <div>
+         <h2>Whats on your mind!!</h2>
+         <form onsubmit="event.preventDefault(); tryPost()" action="#">
+             <label for="loginmsg" style="color:hsla(0,100%,50%,0.5);      font-family:"Helvetica Neue",Helvetica,sans-serif;"><?php  echo @         $_GET['msg'];?></label>
+             <textarea rows="4" cols="30" form="usrform" id="post" name="post" maxlength="500">Enter text here...</textarea>
+             <div id="lower">
+                 <input type="submit" value="POST">
+             </div>
+         </form>
+     </div><!--/ container-->
+     <div id="posts"></div>
+
 <script>
 function getPosts() {
     let username = params["username"];
@@ -180,40 +203,22 @@ function getPosts() {
       data: JSON.stringify({"username": username}),
       dataType: "json",
       success: function(msg) {
-        alert("Success");
-        var posts = msg.toString();
-        console.log(posts)
+        for(var i in msg){
+            post = msg[i].postText;
+            user = msg[i].username;
+            time = msg[i].time;
+            html = '<div style="border:1px solid black;"><h3>'+post+'</h3><h4>By: '+user+'</h4><h4>'+time+'</h4></div></br>'
+            document.getElementById('posts').innerHTML += html;
+        }
       },
       error: function(){
-         alert("Post Failed");
+         alert("Getting Posts Failed");
       }
     });
   };
 </script>
 
-</head>
 
-<body>
-
-    <!-- Begin Page Content -->
-        <h1>Welcome</h1>
-        <div id="user">Dear </div>
-        <script>
-            document.getElementById("user").innerHTML = "Dear ".concat(params["username"]);
-        </script>
-        <h2><a href="login.html">LogOut</a></h2>
-        <div id="container">
-         <h2>Whats on your mind!!</h2>
-         <form onsubmit="event.preventDefault(); tryPost()" action="#">
-             <label for="loginmsg" style="color:hsla(0,100%,50%,0.5);      font-family:"Helvetica Neue",Helvetica,sans-serif;"><?php  echo @         $_GET['msg'];?></label>
-             <label for="post">Post:</label>
-             <textarea rows="4" cols="30" form="usrform" id="post" name="post" maxlength="500">Enter text here...</textarea>
-             <div id="lower">
-                 <input type="submit" value="POST">
-             </div>
-         </form>
-     </div><!--/ container-->
-     <button onclick="getPosts()" > Click Me</button>
 
     <!-- End Page Content -->
 </body>
