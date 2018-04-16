@@ -171,6 +171,25 @@ function tryPost() {
     });
   };
 </script>
+<script>
+function getPosts() {
+    let username = params["username"];
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/getTimeline",
+      data: JSON.stringify({"username": username}),
+      dataType: "json",
+      success: function(msg) {
+        alert("Success");
+        var posts = msg.toString();
+        console.log(posts)
+      },
+      error: function(){
+         alert("Post Failed");
+      }
+    });
+  };
+</script>
 
 </head>
 
@@ -194,6 +213,8 @@ function tryPost() {
              </div>
          </form>
      </div><!--/ container-->
+     <button onclick="getPosts()" > Click Me</button>
+
     <!-- End Page Content -->
 </body>
 </html>

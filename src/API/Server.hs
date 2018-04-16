@@ -3,6 +3,7 @@ module API.Server where
 import API.Login (login)
 import API.Register (register)
 import API.Post (post)
+import API.UserTimeline (getTimelinePosts)
 import Control.Monad (msum)
 import Happstack.Server 
 
@@ -12,6 +13,7 @@ router =
               login
             , register
             , post
+            , getTimelinePosts
             ]
 
 newHTTPHandler :: Int -> IO ()

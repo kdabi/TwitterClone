@@ -5,11 +5,6 @@ import Control.Applicative
 import Database.SQLite.Simple
 import Database.SQLite.Simple.FromRow
 
-data PostField = PostField String String String deriving (Show)
-
-instance FromRow PostField where
-	fromRow = PostField <$> field <*> field <*> field
-
 postTweet :: String -> String -> String -> IO Bool
 postTweet username post time = do
     conn <- open "twitterClone.db"
