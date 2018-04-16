@@ -37,7 +37,7 @@ getBody = do
 register :: ServerPartT IO Response
 register = dir "register" $ do
         method POST
-	body <- getBody
+        body <- getBody
         liftIO $ putStrLn $ show body -- to print
         let form =  fromJust $ A.decode body :: RegistrationForm     
         isRegistered <- liftIO $ createAccount form

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>User Profile</title>
+<title>Profile</title>
 <style>
 /* Basics */
 html, body {
@@ -146,53 +146,14 @@ input[type=submit]:active {
         params[temp[0]] = temp[1];
     }
 </script>
-<script>
-function tryPost() {
-    let username = params["username"];
-    let post = document.getElementById("post").value;
-    var d = new Date();
-    let time = d.toString();
-    console.log(username);
-    console.log(post);
-    $.ajax({
-      type: 'POST',
-      url: "http://localhost/api/post",
-      data: JSON.stringify({"username": username, "postText": post, "time": time}),
-      dataType: "json",
-      success: function(msg) {
-        alert("Posted");
-        var str1 = "user.html?username=" ;
-        window.location = str1.concat(username);
-		location.reload();
-      },
-      error: function(){
-         alert("Post Failed");
-      }
-    });
-  };
-</script>
 </head>
 
 <body onload="start()">
 
     <!-- Begin Page Content -->
-        <h1>Welcome</h1>
-        <div id="user">Dear </div>
-        <script>
-            document.getElementById("user").innerHTML = "Dear ".concat(params["username"]);
-        </script>
-        <h2><a href="login.html">LogOut</a></h2>
-        <div>
-         <h2>Whats on your mind!!</h2>
-         <form onsubmit="event.preventDefault(); tryPost()" action="#">
-             <label for="loginmsg" style="color:hsla(0,100%,50%,0.5);      font-family:"Helvetica Neue",Helvetica,sans-serif;"><?php  echo @         $_GET['msg'];?></label>
-             <textarea rows="4" cols="30" form="usrform" id="post" name="post" maxlength="500">Enter text here...</textarea>
-             <div id="lower">
-                 <input type="submit" value="POST">
-             </div>
-         </form>
-     </div><!--/ container-->
-     <div id="userList"></div>
+        <h1 id="user">Welcome</h1>
+        <h3 id="home"></h3>
+        <h3><a href="login.html">LogOut</a></h3>
      <div id="posts"></div>
 
 <script>
@@ -218,42 +179,14 @@ function getPosts() {
     });
   };
 </script>
-
-<script>
-function getUserList() {
-    let username = params["username"];
-    $.ajax({
-      type: 'POST',
-      url: "http://localhost/api/getUsers",
-      data: JSON.stringify({"username": username}),
-      dataType: "json",
-      success: function(msg) {
-	var html = '<ul>'
-        for(var i in msg){
-            user = msg[i].username;
-            var userLink = "profile.html?username=".concat(user);
-            userLink = userLink.concat("&home=");
-            userLink = userLink.concat(params["username"]);
-            html += '<li><a href='+userLink+'>'+user+'</a></li>'
-        }
-	html += '</ul>'
-        document.getElementById('userList').innerHTML = html;
-      },
-      error: function(){
-         alert("Unable to fetch users");
-      }
-    });
-  };
-</script>
 <script>
 function start(){
 	getPosts();
-	getUserList();
+    document.getElementById("user").innerHTML = "Profile of ".concat(params["username"]);
+    var homeURL = "user.html?username=".concat(params["home"]);
+    document.getElementById("home").innerHTML = '<a href='+ homeURL +'> Home</a>';
 }
 </script>
-
-
-
     <!-- End Page Content -->
 </body>
 </html>

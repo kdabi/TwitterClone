@@ -15,7 +15,7 @@ instance ToJSON PostField where
     toJSON (PostField postID username postText time) = object ["postID" .= postID, "username" .= username, "postText" .= postText, "time" .= time]
 
 instance FromRow PostField where
-	fromRow = PostField <$> field <*> field <*>field <*> field
+    fromRow = PostField <$> field <*> field <*>field <*> field
 
 getPost :: String -> IO [PostField]
 getPost username = do

@@ -9,15 +9,15 @@ import Data.Aeson
 data UserField = UserField String String deriving (Show)
 
 instance FromRow UserField where
-	fromRow = UserField <$> field <*> field
+    fromRow = UserField <$> field <*> field
 
 data UsernameField = UsernameField String deriving (Show)
 
 instance FromRow UsernameField where
-	fromRow = UsernameField <$> field
+    fromRow = UsernameField <$> field
 
 instance ToJSON UsernameField where
-	toJSON (UsernameField username) = object ["username" .= username]
+    toJSON (UsernameField username) = object ["username" .= username]
 
 
 authenticate :: String -> String -> IO Int
