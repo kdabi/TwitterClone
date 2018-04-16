@@ -2,6 +2,7 @@ module API.Server where
 
 import API.Login (login)
 import API.Register (register)
+import API.Post (post)
 import Control.Monad (msum)
 import Happstack.Server 
 
@@ -10,6 +11,7 @@ router =
        msum [
               login
             , register
+            , post
             ]
 
 newHTTPHandler :: Int -> IO ()

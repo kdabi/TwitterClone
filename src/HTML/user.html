@@ -131,6 +131,12 @@ input[type=submit]:active {
     background-image: linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
 }
 </style>
+<script
+   src="https://code.jquery.com/jquery-3.3.1.min.js"
+   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+   crossorigin="anonymous">
+</script>
+
 <script>
     var str1 = window.location.search.substring(1);
     var queries = str1.split("&");
@@ -139,6 +145,8 @@ input[type=submit]:active {
         temp = queries[i].split('=');
         params[temp[0]] = temp[1];
     }
+</script>
+<script>
 function tryPost() {
     let username = params["username"];
     let post = document.getElementById("post").value;
@@ -149,7 +157,7 @@ function tryPost() {
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/post",
-      data: JSON.stringify({"username": username, "post": post, "time": time}),
+      data: JSON.stringify({"username": username, "postText": post, "time": time}),
       dataType: "json",
       success: function(msg) {
         alert("Posted");
