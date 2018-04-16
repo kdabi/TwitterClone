@@ -1,5 +1,6 @@
 module API.Server where
 
+import API.GetUsers (fetchUserList)
 import API.Login (login)
 import API.Register (register)
 import API.Post (post)
@@ -14,6 +15,7 @@ router =
             , register
             , post
             , getTimelinePosts
+            , fetchUserList
             ]
 
 newHTTPHandler :: Int -> IO ()

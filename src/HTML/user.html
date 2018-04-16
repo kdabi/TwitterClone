@@ -173,7 +173,7 @@ function tryPost() {
 </script>
 </head>
 
-<body onload="getPosts()">
+<body onload="start()">
 
     <!-- Begin Page Content -->
         <h1>Welcome</h1>
@@ -192,6 +192,7 @@ function tryPost() {
              </div>
          </form>
      </div><!--/ container-->
+     <div id="userList"></div>
      <div id="posts"></div>
 
 <script>
@@ -216,6 +217,36 @@ function getPosts() {
       }
     });
   };
+</script>
+
+<script>
+function getUserList() {
+    let username = params["username"];
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/getUsers",
+      data: JSON.stringify({"username": username}),
+      dataType: "json",
+      success: function(msg) {
+	var html = '<ul>'
+        for(var i in msg){
+            user = msg[i].username;
+	    html += '<li>'+user+'</li>'
+        }
+	html += '</ul>'
+        document.getElementById('userList').innerHTML = html;
+      },
+      error: function(){
+         alert("Unable to fetch users");
+      }
+    });
+  };
+</script>
+<script>
+function start(){
+	getPosts();
+	getUserList();
+}
 </script>
 
 
