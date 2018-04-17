@@ -141,6 +141,7 @@ input[type=submit]:active {
     var str1 = window.location.search.substring(1);
     var queries = str1.split("&");
     var params = {}, i,l;
+    var followingFlag;
     for (i = 0, l = queries.length; i <l; i++ ){
         temp = queries[i].split('=');
         params[temp[0]] = temp[1];
@@ -154,6 +155,7 @@ input[type=submit]:active {
         <h1 id="user">Welcome</h1>
         <h3 id="home"></h3>
         <h3><a href="login.html">LogOut</a></h3>
+        <div><button id="followingTab"></button></div></br></br>
      <div id="posts"></div>
 
 <script>
@@ -180,8 +182,27 @@ function getPosts() {
   };
 </script>
 <script>
+function isFollowing() {
+    let user = params["username"];
+    let follower = params["home"];
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/isFollowing",
+      data: JSON.stringify({"follower": follower, "user": user}),
+      dataType: "json",
+      success: function(msg) {
+            document.getElementById("followingTab").innerHTML = 'Following'
+      },
+      error: function(){
+            document.getElementById("followingTab").innerHTML = 'Follow'
+      },
+    });
+  };
+</script>
+<script>
 function start(){
 	getPosts();
+    isFollowing();
     document.getElementById("user").innerHTML = "Profile of ".concat(params["username"]);
     var homeURL = "user.html?username=".concat(params["home"]);
     document.getElementById("home").innerHTML = '<a href='+ homeURL +'> Home</a>';
