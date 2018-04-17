@@ -40,9 +40,15 @@ unfollowUser follower user = do
 
 
 getFollowing :: String -> IO [FollowField]
--- returns list of users
 getFollowing username = do
     conn <- open "twitterClone.db"
     r <- queryNamed conn "SELECT user from followersTable WHERE follower = :follower" [":follower" := username] :: IO [FollowField]
+    close conn
+    return r
+
+getFollowers :: String -> IO [FollowField]
+getFollowers username = do
+    conn <- open "twitterClone.db"
+    r <- queryNamed conn "SELECT follower from followersTable WHERE user = :user" [":user" := username] :: IO [FollowField]
     close conn
     return r

@@ -147,6 +147,58 @@ input[type=submit]:active {
         params[temp[0]] = temp[1];
     }
 </script>
+<script>
+function getFollowing() {
+    let username = params["username"];
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/following",
+      data: JSON.stringify({"followerT": username}),
+      dataType: "json",
+      success: function(msg) {
+        var html = '<ul>'
+        for(var i in msg){
+            user = msg[i].following;
+            var userLink = "profile.html?username=".concat(user);
+            userLink = userLink.concat("&home=");
+            userLink = userLink.concat(params["home"]);
+            html += '<li><a href='+userLink+'>'+user+'</a></li>'
+        }
+        html += '</ul>'
+        document.getElementById('following').innerHTML = html;
+      },
+      error: function(){
+         alert("Getting Following List Failed");
+      }
+    });
+  };
+</script>
+<script>
+function getFollowers() {
+    let username = params["username"];
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/followers",
+      data: JSON.stringify({"followerT": username}),
+      dataType: "json",
+      success: function(msg) {
+        var html = '<ul>'
+        for(var i in msg){
+            user = msg[i].following;
+            var userLink = "profile.html?username=".concat(user);
+            userLink = userLink.concat("&home=");
+            userLink = userLink.concat(params["home"]);
+            html += '<li><a href='+userLink+'>'+user+'</a></li>'
+        }
+        html += '</ul>'
+        document.getElementById('followers').innerHTML = html;
+      },
+      error: function(){
+         alert("Getting Followers List Failed");
+      }
+    });
+  };
+</script>
 </head>
 
 <body onload="start()">
@@ -156,6 +208,10 @@ input[type=submit]:active {
         <h3 id="home"></h3>
         <h3><a href="login.html">LogOut</a></h3>
         <div id="followingTab"></div></br></br>
+        <button onclick="getFollowers()">Followers</button></br>
+        <div id="followers"></div></br>
+        <button onclick="getFollowing()">Following</button></br>
+        <div id="following"></div></br>
      <div id="posts"></div>
 
 <script>
@@ -234,6 +290,7 @@ function isFollowing() {
           document.getElementById("followingTab").innerHTML = '<button onclick=\"follow()\">Follow</button>'
       },
     });
+    if(user == follower) document.getElementById("followingTab").innerHTML = '';
   };
 </script>
 <script>

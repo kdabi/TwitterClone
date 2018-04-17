@@ -23,3 +23,4 @@ getPost username = do
     r <- queryNamed conn "SELECT * from posts WHERE username = :username " [":username" := username ] :: IO [PostField]
     close conn
     return r
+
