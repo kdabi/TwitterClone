@@ -17,7 +17,7 @@ import Happstack.Server
 import Happstack.Server.Types
 import qualified Network.HTTP as H
 import qualified Data.ByteString.Char8 as D
-import DB.Follow (checkFollowing, getFollowing, FollowField)
+import DB.Follow (followUser, unfollowUser, checkFollowing, getFollowing, FollowField)
 
 data CheckFollowingForm = CheckFollowingForm { follower :: String
                            , user :: String } 
@@ -38,6 +38,16 @@ checkFollow (CheckFollowingForm {follower, user}) = do
     flag <- (checkFollowing follower user)
     return flag
 
+followCommand :: CheckFollowingForm -> IO Bool
+followCommand (CheckFollowingForm {follower, user}) = do 
+    flag <- (followUser follower user)
+    return flag
+
+unfollowCommand :: CheckFollowingForm -> IO Bool
+unfollowCommand (CheckFollowingForm {follower, user}) = do 
+    flag <- (unfollowUser follower user)
+    return flag
+
 isFollowing :: ServerPartT IO Response
 isFollowing = dir "isFollowing" $ do
         method POST
@@ -46,5 +56,24 @@ isFollowing = dir "isFollowing" $ do
         flag <- liftIO $ checkFollow form
         if flag then ok $ toResponse $ A.encode form
         else ok $ toResponse (D.pack "h")
+
+follow :: ServerPartT IO Response
+follow = dir "follow" $ do
+        method POST
+        body <- getBody
+        let form =  fromJust $ A.decode body :: CheckFollowingForm
+        flag <- liftIO $ followCommand form
+        if flag then ok $ toResponse $ A.encode form
+        else ok $ toResponse (D.pack "h")
+
+unfollow :: ServerPartT IO Response
+unfollow = dir "unfollow" $ do
+        method POST
+        body <- getBody
+        let form =  fromJust $ A.decode body :: CheckFollowingForm
+        flag <- liftIO $ unfollowCommand form
+        if flag then ok $ toResponse $ A.encode form
+        else ok $ toResponse (D.pack "h")
+
 
 

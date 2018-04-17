@@ -23,6 +23,21 @@ checkFollowing follower user = do
     if ((length r) == 1) then return True
     else return False
 
+followUser :: String -> String -> IO Bool
+followUser follower user = do
+    conn <- open "twitterClone.db"
+    executeNamed conn "INSERT INTO followersTable (follower, user) VALUES (:follower, :user)" [":follower" := follower, ":user" := user]
+    close conn
+    return True
+
+
+unfollowUser :: String -> String -> IO Bool
+unfollowUser follower user = do
+    conn <- open "twitterClone.db"
+    executeNamed conn "DELETE FROM followersTable WHERE follower = :follower AND user = :user" [":follower" := follower, ":user" := user]
+    close conn
+    return True
+
 
 getFollowing :: String -> IO [FollowField]
 -- returns list of users
