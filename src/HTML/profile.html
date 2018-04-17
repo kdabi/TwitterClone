@@ -191,7 +191,7 @@ function follow() {
       data: JSON.stringify({"follower": follower, "user": user}),
       dataType: "json",
       success: function(msg) {
-          location.reload()
+          document.getElementById("followingTab").innerHTML = '<button onclick=\"unfollow()\">Following</button>';
       },
       error: function(){
           alert("Unable to follow")
@@ -209,7 +209,7 @@ function unfollow() {
       data: JSON.stringify({"follower": follower, "user": user}),
       dataType: "json",
       success: function(msg) {
-          location.reload()
+          document.getElementById("followingTab").innerHTML = '<button onclick=\"follow()\">Follow</button>';
       },
       error: function(){
           alert("Unable to follow")
