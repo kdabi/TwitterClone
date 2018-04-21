@@ -227,7 +227,10 @@ function getPosts() {
             post = msg[i].postText;
             user = msg[i].username;
             time = msg[i].time;
-            html = '<div style="border:1px solid black;"><h3>'+post+'</h3><h4>By: '+user+'</h4><h4>'+time+'</h4></div></br>'
+            var userLink = "profile.html?username=".concat(user);
+            userLink = userLink.concat("&home=");
+            userLink = userLink.concat(params["home"]);
+            html = '<div style="border:1px solid black;"><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>'+time+'</h4></div></br>'
             document.getElementById('posts').innerHTML = html + document.getElementById('posts').innerHTML;
         }
       },
@@ -278,6 +281,7 @@ function unfollow() {
 function isFollowing() {
     let user = params["username"];
     let follower = params["home"];
+    if(user == follower) return;
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/isFollowing",
@@ -290,7 +294,6 @@ function isFollowing() {
           document.getElementById("followingTab").innerHTML = '<button onclick=\"follow()\">Follow</button>'
       },
     });
-    if(user == follower) document.getElementById("followingTab").innerHTML = '';
   };
 </script>
 <script>

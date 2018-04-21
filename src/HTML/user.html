@@ -214,7 +214,10 @@ function getPosts() {
             user = msg[i].username;
             time = msg[i].time;
             id = msg[i].postID;
-            html = '<div style="border:1px solid black;"><h5>Post ID - '+id+'<h5><h3>'+post+'</h3><h4>By: '+user+'</h4><h4>'+time+'</h4></div></br>'
+            var userLink = "profile.html?username=".concat(user);
+            userLink = userLink.concat("&home=");
+            userLink = userLink.concat(params["username"]);
+            html = '<div style="border:1px solid black;"><h5>Post ID - '+id+'<h5><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>'+time+'</h4></div></br>'
             document.getElementById('posts').innerHTML += html;
         }
       },
