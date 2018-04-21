@@ -228,7 +228,7 @@ function getPosts() {
             user = msg[i].username;
             time = msg[i].time;
             html = '<div style="border:1px solid black;"><h3>'+post+'</h3><h4>By: '+user+'</h4><h4>'+time+'</h4></div></br>'
-            document.getElementById('posts').innerHTML += html;
+            document.getElementById('posts').innerHTML = html + document.getElementById('posts').innerHTML;
         }
       },
       error: function(){

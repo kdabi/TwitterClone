@@ -17,6 +17,7 @@ import Happstack.Server
 import Happstack.Server.Types
 import qualified Network.HTTP as H
 import qualified Data.ByteString.Char8 as D
+import DB.GetPost (PostField, getPost)
 import DB.Follow (followUser, unfollowUser, checkFollowing, getFollowing, getFollowers, FollowField)
 
 data CheckFollowingForm = CheckFollowingForm { follower :: String
@@ -100,3 +101,5 @@ unfollow = dir "unfollow" $ do
         if flag then ok $ toResponse $ A.encode form
         else ok $ toResponse (D.pack "h")
 
+myPosts :: FollowerForm -> IO [PostField]
+myPosts (FollowerForm{followerT}) = getPost followerT

@@ -5,6 +5,7 @@ import API.Login (login)
 import API.Register (register)
 import API.Post (post)
 import API.Follow (getFollowersList, getFollowingList, isFollowing, follow, unfollow)
+import API.FollowingPost (followingPost)
 import API.UserTimeline (getTimelinePosts)
 import Control.Monad (msum)
 import Happstack.Server 
@@ -22,6 +23,7 @@ router =
             , unfollow
             , getFollowersList
             , getFollowingList
+            , followingPost
             ]
 
 newHTTPHandler :: Int -> IO ()

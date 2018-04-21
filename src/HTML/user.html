@@ -201,15 +201,16 @@ function getPosts() {
     let username = params["username"];
     $.ajax({
       type: 'POST',
-      url: "http://localhost/api/getTimeline",
-      data: JSON.stringify({"username": username}),
+      url: "http://localhost/api/followingPost",
+      data: JSON.stringify({"followerT": username}),
       dataType: "json",
       success: function(msg) {
         for(var i in msg){
             post = msg[i].postText;
             user = msg[i].username;
             time = msg[i].time;
-            html = '<div style="border:1px solid black;"><h3>'+post+'</h3><h4>By: '+user+'</h4><h4>'+time+'</h4></div></br>'
+            id = msg[i].postID;
+            html = '<div style="border:1px solid black;"><h5>Post ID - '+id+'<h5><h3>'+post+'</h3><h4>By: '+user+'</h4><h4>'+time+'</h4></div></br>'
             document.getElementById('posts').innerHTML += html;
         }
       },

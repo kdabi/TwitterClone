@@ -52,3 +52,6 @@ getFollowers username = do
     r <- queryNamed conn "SELECT follower from followersTable WHERE user = :user" [":user" := username] :: IO [FollowField]
     close conn
     return r
+
+followFieldToString :: FollowField -> String
+followFieldToString (FollowField username) = username 
