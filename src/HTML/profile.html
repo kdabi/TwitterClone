@@ -130,6 +130,34 @@ input[type=submit]:active {
     background-image: -moz-linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
     background-image: linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
 }
+.topnav {
+  overflow: hidden;
+  background-color: #666699;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 18px 22px;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #3d3d5c;
+  color: white;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>
 <script
    src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -204,9 +232,9 @@ function getFollowers() {
 <body onload="start()">
 
     <!-- Begin Page Content -->
+	<div id="navigation" class="topnav">
+	</div>
         <h1 id="user">Welcome</h1>
-        <h3 id="home"></h3>
-        <h3><a href="login.html">LogOut</a></h3>
         <div id="followingTab"></div></br></br>
         <button onclick="getFollowers()">Followers</button></br>
         <div id="followers"></div></br>
@@ -302,7 +330,11 @@ function start(){
     isFollowing();
     document.getElementById("user").innerHTML = "Profile of ".concat(params["username"]);
     var homeURL = "user.html?username=".concat(params["home"]);
-    document.getElementById("home").innerHTML = '<a href='+ homeURL +'> Home</a>';
+    var home = 'user.html?username='+params["home"];
+    var timeline = "profile.html?username=".concat(params["home"]);
+    timeline = timeline.concat("&home=");
+    timeline = timeline.concat(params["home"]);
+    document.getElementById('navigation').innerHTML = '<a href='+home+'>Home</a> <a class="active" href='+timeline+'>Timeline</a><a href="index.html">Log Out</a>';
 }
 </script>
     <!-- End Page Content -->
