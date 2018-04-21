@@ -130,6 +130,37 @@ input[type=submit]:active {
     background-image: -moz-linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
     background-image: linear-gradient(top left 90deg, #6ec2e8 0%, #b6e2ff 100%);
 }
+
+.topnav {
+  overflow: hidden;
+  background-color: #666699;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 18px 22px;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #3d3d5c;
+  color: white;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 </style>
 
 
@@ -138,9 +169,13 @@ input[type=submit]:active {
 <body>
 
     <!-- Begin Page Content -->
-        <h1>Welcome to TwitterClone </h1>
-        <h2><a href="login.html" />Login Page</a></h2>
-        <h2><a href="register.html" />Sign Up</a></h2>
+		<div class= "topnav">
+			<a class="active" href="index.html">TwitterClone</a>
+			<a href="login.html">Login</a>
+			<a href="register.html">Sign Up</a>
+		</div>
+        <h1 style='text-align:center;'>Welcome to TwitterClone </h1>
+		<img src="logo.png" alt="twitter clone" class="center" width="300" height="300">
     <!-- End Page Content -->
 </body>
 </html>
