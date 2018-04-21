@@ -205,6 +205,10 @@ function getPosts() {
       data: JSON.stringify({"followerT": username}),
       dataType: "json",
       success: function(msg) {
+        msg.sort(function(a, b){
+            return parseFloat(a.postID -parseFloat(b.postID));
+        });
+        msg.reverse();
         for(var i in msg){
             post = msg[i].postText;
             user = msg[i].username;
