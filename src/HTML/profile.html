@@ -158,6 +158,31 @@ input[type=submit]:active {
     margin-left: auto;
     margin-right: auto;
 }
+
+nav {
+    float: left;
+    max-width: 160px;
+    margin: 0;
+    padding: 1em;
+}
+
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul a {
+    text-decoration: none;
+}
+
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}
 </style>
 <script
    src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -236,11 +261,13 @@ function getFollowers() {
 	</div>
         <h1 id="user">Welcome</h1>
         <div id="followingTab"></div></br></br>
+	<nav>
         <button onclick="getFollowers()">Followers</button></br>
         <div id="followers"></div></br>
         <button onclick="getFollowing()">Following</button></br>
         <div id="following"></div></br>
-     <div id="posts"></div>
+	</nav>
+     <article><div id="posts"></div></article>
 
 <script>
 function getPosts() {
