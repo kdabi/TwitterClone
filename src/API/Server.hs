@@ -2,6 +2,7 @@ module API.Server where
 
 import API.GetUsers (fetchUserList)
 import API.Comment (comment)
+import API.GetComment (getPostComments)
 import API.Login (login)
 import API.Register (register)
 import API.Post (post)
@@ -26,6 +27,7 @@ router =
             , getFollowingList
             , followingPost
             , comment
+            , getPostComments
             ]
 
 newHTTPHandler :: Int -> IO ()

@@ -272,7 +272,7 @@ function getPosts() {
             var userLink = "profile.html?username=".concat(user);
             userLink = userLink.concat("&home=");
             userLink = userLink.concat(params["username"]);
-            html = '<div style="border:1px solid black;margin:25px;padding:25px;"><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>Time: '+time+'</h4></div><div style="border:1px solid black;margin-top:-20px;margin-left:25px;margin-right:25px;padding:10px;" id="comments'+id+'"><a onClick="getCommentsSection('+id+')" style="cursor: pointer; cursor: hand;">*View Comments*</a></div></br><div style="border:1px solid black;"></div></br>'
+            html = '<div style="border:1px solid black;margin:25px;padding:25px;"><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>Time: '+time+'</h4></div><div style="border:1px solid black;margin-top:-20px;margin-left:25px;margin-right:25px;padding:10px;" id="comments'+id+'"><a onClick="getComments('+id+')" style="cursor: pointer; cursor: hand;">*View Comments*</a></div></br><div style="border:1px solid black;"></div></br>'
             document.getElementById('posts').innerHTML += html;
         }
       },
@@ -281,13 +281,6 @@ function getPosts() {
       }
     });
   };
-</script>
-<script>
-function getCommentsSection(id){
-    var html = '<form onsubmit="event.preventDefault(); tryComment('+id+')" action="#"><input type="text" id="comment'+id+'"  name="comment'+id+'" maxlength="50"></input><div id="lower"><input type="submit" value="Comment"></div></form></br>' 
-    html += '<a onClick="hideCommentsSection('+id+')"style="cursor: pointer; cursor: hand;">*Hide Comments Section*</a>'
-    document.getElementById('comments'+id).innerHTML = html;
-};
 </script>
 <script>
 function tryComment(id){
@@ -299,7 +292,7 @@ function tryComment(id){
       data: JSON.stringify({"username": username, "mycomment": comment, "myID": id}),
       dataType: "json",
       success: function(msg) {
-         getCommentsSection(id);
+         getComments(id);
       },
       error: function(){
          alert("Unable to Comment");
@@ -308,8 +301,36 @@ function tryComment(id){
 };
 </script>
 <script>
+function getComments(id) {
+    $.ajax({
+      type: 'POST',
+      url: "http://localhost/api/getComment",
+      data: JSON.stringify({"postID": id}),
+      dataType: "json",
+      success: function(msg) {
+        var html = '';
+        for(var i in msg){
+            user = msg[i].username;
+            comment = msg[i].commentText;
+            var userLink = "profile.html?username=".concat(user);
+            userLink = userLink.concat("&home=");
+            userLink = userLink.concat(params["username"]);
+            html = html + '<div style="border:1px solid black;margin:5px;padding:5px;"><h5><a href='+userLink+'>'+user+'</a> : '+comment+'</h5></div>';
+        }
+        html += '<form onsubmit="event.preventDefault(); tryComment('+id+')" action="#"><input type="text" id="comment'+id+'"  name="comment'+id+'" maxlength="50"></input><div id="lower"><input type="submit" value="Comment"></div></form></br>' 
+        html += '<a onClick="hideCommentsSection('+id+')"style="cursor: pointer; cursor: hand;">*Hide Comments Section*</a>'
+        document.getElementById('comments'+id).innerHTML = html;
+      },
+      error: function(){
+         alert("Getting Comments Failed");
+      }
+    });
+  };
+</script>
+<
+<script>
 function hideCommentsSection(id){
-    document.getElementById('comments'+id).innerHTML ='<a onClick="getCommentsSection('+id+')"style="cursor: pointer; cursor: hand;">*View Comments*</a>'
+    document.getElementById('comments'+id).innerHTML ='<a onClick="getComments('+id+')"style="cursor: pointer; cursor: hand;">*View Comments*</a>'
 };
 </script>
 
