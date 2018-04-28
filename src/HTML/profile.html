@@ -285,7 +285,7 @@ function getPosts() {
             var userLink = "profile.html?username=".concat(user);
             userLink = userLink.concat("&home=");
             userLink = userLink.concat(params["home"]);
-            html = '<div style="border:1px solid black;"><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>'+time+'</h4></div></br>'
+            html = '<div style="border:1px solid black;margin:25px;padding:25px;"><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>Time: '+time+'</h4></div></br><div style="border:1px solid black;"></div></br>'
             document.getElementById('posts').innerHTML = html + document.getElementById('posts').innerHTML;
         }
       },
