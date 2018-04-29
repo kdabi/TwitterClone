@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Login Page</title>
+<link rel="shortcut icon" href="favicon.png" />
 <style>
 /* Basics */
 html, body {
@@ -172,16 +173,16 @@ input[type=submit]:active {
  function tryLogin() {
    let username = document.getElementById("username").value;
    let password = document.getElementById("password").value;
-   console.log(username);
-   console.log(password);
+   var myData = 'username='+username;
+   localStorage.setItem('objectToPass', myData);
    $.ajax({
      type: 'POST',
      url: "http://localhost/api/login",
      data: JSON.stringify({"username": username, "password": password}),
      dataType: "json",
      success: function(msg) {
-       var str1 = "user.html?username=" ;
-       window.location = str1.concat(username);
+       var str1 = "user.html" ;
+       window.location = str1;
      },
      error: function(){
         window.location = "login_error.html";

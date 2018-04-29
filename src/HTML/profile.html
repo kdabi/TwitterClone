@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Profile</title>
+<link rel="shortcut icon" href="favicon.png" />
 <style>
 /* Basics */
 html, body {
@@ -209,18 +210,28 @@ article {
 </script>
 
 <script>
-    var str1 = window.location.search.substring(1);
-    var queries = str1.split("&");
+    var myData = localStorage['objectToPass']; 
+    localStorage.removeItem('objectToPass');
+    var queries = myData.split("&");
     var params = {}, i,l;
-    var followingFlag;
     for (i = 0, l = queries.length; i <l; i++ ){
         temp = queries[i].split('=');
         params[temp[0]] = temp[1];
     }
 </script>
 <script>
+    var str1 = window.location.search.substring(1);
+    var queries = str1.split("&");
+    var params1 = {}, i,l;
+    var followingFlag;
+    for (i = 0, l = queries.length; i <l; i++ ){
+        temp = queries[i].split('=');
+        params1[temp[0]] = temp[1];
+    }
+</script>
+<script>
 function getFollowing() {
-    let username = params["username"];
+    let username = params1["username"];
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/following",
@@ -231,8 +242,6 @@ function getFollowing() {
         for(var i in msg){
             user = msg[i].following;
             var userLink = "profile.html?username=".concat(user);
-            userLink = userLink.concat("&home=");
-            userLink = userLink.concat(params["home"]);
             html += '<li><a href='+userLink+'>'+user+'</a></li>'
         }
         html += '</ul>'
@@ -246,7 +255,7 @@ function getFollowing() {
 </script>
 <script>
 function getFollowers() {
-    let username = params["username"];
+    let username = params1["username"];
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/followers",
@@ -257,8 +266,6 @@ function getFollowers() {
         for(var i in msg){
             user = msg[i].following;
             var userLink = "profile.html?username=".concat(user);
-            userLink = userLink.concat("&home=");
-            userLink = userLink.concat(params["home"]);
             html += '<li><a href='+userLink+'>'+user+'</a></li>'
         }
         html += '</ul>'
@@ -290,7 +297,7 @@ function getFollowers() {
 
 <script>
 function getPosts() {
-    let username = params["username"];
+    let username = params1["username"];
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/getTimeline",
@@ -303,8 +310,6 @@ function getPosts() {
             time = msg[i].time;
             id = msg[i].postID
             var userLink = "profile.html?username=".concat(user);
-            userLink = userLink.concat("&home=");
-            userLink = userLink.concat(params["home"]);
             html = '<div style="border:1px solid black;margin:25px;padding:25px;"><h3>'+post+'</h3><h4>By: <a href='+userLink+'>'+user+'</a></h4><h4>Time: '+time+'</h4></div><div style="border:1px solid black;margin-top:-20px;margin-left:25px;margin-right:25px;padding:10px;" id="comments'+id+'"><a onClick="getComments('+id+')" style="cursor:pointer; cursor: hand;">*View Comments*</a></div></br><div style="border: 1px solid black;"></div></br>'
             document.getElementById('posts').innerHTML = html + document.getElementById('posts').innerHTML;
         }
@@ -317,8 +322,8 @@ function getPosts() {
 </script>
 <script>
 function follow() {
-    let user = params["username"];
-    let follower = params["home"];
+    let user = params1["username"];
+    let follower = params["username"];
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/follow",
@@ -335,8 +340,8 @@ function follow() {
 </script>
 <script>
 function unfollow() {
-    let user = params["username"];
-    let follower = params["home"];
+    let user = params1["username"];
+    let follower = params["username"];
     $.ajax({
       type: 'POST',
       url: "http://localhost/api/unfollow",
@@ -353,7 +358,7 @@ function unfollow() {
 </script>
 <script>
 function tryComment(id){
-    let username = params["home"]; 
+    let username = params["username"]; 
     let comment = document.getElementById('comment'+id).value;
     $.ajax({
       type: 'POST',
@@ -382,8 +387,6 @@ function getComments(id) {
             user = msg[i].username;
             comment = msg[i].commentText;
             var userLink = "profile.html?username=".concat(user);
-            userLink = userLink.concat("&home=");
-            userLink = userLink.concat(params["home"]);
             html = html + '<div style="border:1px solid black;margin:5px;padding:5px;"><h5><a href='+userLink+'>'+user+'</a> : '+comment+'</h5></div>';
         }
         html += '<form onsubmit="event.preventDefault(); tryComment('+id+')" action="#"><input type="text" id="comment'+id+'"  name="comment'+id+'" maxlength="50"></input><div id="lower"><input type="submit" value="Comment"></div></form></br>' 
@@ -403,8 +406,8 @@ function hideCommentsSection(id){
 </script>
 <script>
 function isFollowing() {
-    let user = params["username"];
-    let follower = params["home"];
+    let user = params1["username"];
+    let follower = params["username"];
     if(user == follower) return;
     $.ajax({
       type: 'POST',
@@ -422,14 +425,14 @@ function isFollowing() {
 </script>
 <script>
 function start(){
+    var myData = 'username='+params['username'];
+    localStorage.setItem('objectToPass', myData);
 	getPosts();
     isFollowing();
-    document.getElementById("user").innerHTML = '</br></br><img src="dp.png" border="1" alt="Profile Picture" width="200" height="200" class="center"><h1 style="text-align:center">Profile of '+params["username"];
-    var homeURL = "user.html?username=".concat(params["home"]);
-    var home = 'user.html?username='+params["home"];
-    var timeline = "profile.html?username=".concat(params["home"]);
-    timeline = timeline.concat("&home=");
-    timeline = timeline.concat(params["home"]);
+    document.getElementById("user").innerHTML = '</br></br><img src="dp.png" border="1" alt="Profile Picture" width="200" height="200" class="center"><h1 style="text-align:center">Profile of '+params1["username"];
+    var homeURL = "user.html";
+    var home = 'user.html';
+    var timeline = "profile.html?username=".concat(params["username"]);
     document.getElementById('navigation').innerHTML = '<a href='+home+'>Home</a> <a class="active" href='+timeline+'>Timeline</a><a href="index.html">Log Out</a>';
 }
 </script>

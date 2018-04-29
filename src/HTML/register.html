@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Sign Up Page</title>
+<link rel="shortcut icon" href="favicon.png" />
 <style>
 /* Basics */
 html, body {
@@ -172,8 +173,8 @@ input[type=submit]:active {
  function trySignUp() {
    let username = document.getElementById("username").value;
    let password = document.getElementById("password").value;
-   console.log(username);
-   console.log(password);
+   var myData = 'username='+username;
+   localStorage.setItem('objectToPass', myData);
    $.ajax({
      type: 'POST',
      url: "http://localhost/api/register",
