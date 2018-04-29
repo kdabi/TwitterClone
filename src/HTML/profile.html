@@ -284,6 +284,7 @@ function getFollowers() {
     <!-- Begin Page Content -->
 	<div id="navigation" class="topnav">
 	</div>
+    <div id="mybody">
         <div id="user">Welcome</div>
 	<nav>
         <div id="followingTab"></div>
@@ -294,6 +295,7 @@ function getFollowers() {
         <div id="following"></div></br>
 	</nav>
      <article><div id="posts"></div></article>
+    </div>
 
 <script>
 function getPosts() {
@@ -425,6 +427,14 @@ function isFollowing() {
 </script>
 <script>
 function start(){
+    if(params['username'] == undefined){
+        document.getElementById('navigation').innerHTML = 
+			'<a class="active" href="index.html">TwitterClone</a><a href="login.html">Login</a><a href="register.html">Sign Up</a>';
+        var myData = '';
+        localStorage.setItem('objectToPass', myData);
+        document.getElementById("mybody").innerHTML = '<h1 style="text-align:center;">First Authenticate</h1>';
+        return;
+    }
     var myData = 'username='+params['username'];
     localStorage.setItem('objectToPass', myData);
 	getPosts();

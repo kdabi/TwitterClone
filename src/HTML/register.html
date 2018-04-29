@@ -173,7 +173,7 @@ input[type=submit]:active {
  function trySignUp() {
    let username = document.getElementById("username").value;
    let password = document.getElementById("password").value;
-   var myData = 'username='+username;
+   var myData = '';
    localStorage.setItem('objectToPass', myData);
    $.ajax({
      type: 'POST',
@@ -181,8 +181,10 @@ input[type=submit]:active {
      data: JSON.stringify({"username": username, "password": password}),
      dataType: "json",
      success: function(msg) {
-       var str1 = "user.html?username=" ;
-       window.location = str1.concat(username);
+       var myData = 'username='+username;
+       localStorage.setItem('objectToPass', myData);
+       var str1 = "user.html" ;
+       window.location = str1;
      },
      error: function(){
         window.location = "register_error.html";

@@ -238,6 +238,7 @@ function tryPost() {
     <!-- Begin Page Content -->
 	<div id="navigation" class="topnav">
 	</div>
+    <div id="mybody">
         <h1 style="text-align:center;" id="user"></h1>
         <script>
             document.getElementById("user").innerHTML = "Welcome ".concat(params["username"]);
@@ -250,9 +251,9 @@ function tryPost() {
                  <input type="submit" value="POST">
              </div>
          </form>
-     </div><!--/ container-->
      <nav><h3 style="text-align:center;">User -</h3><div id="userList"></div></nav>
      <article><div id="posts"></div></article>
+     </div>
 
 <script>
 function getPosts() {
@@ -358,6 +359,14 @@ function getUserList() {
 </script>
 <script>
 function start(){
+    if(params['username'] == undefined){
+        document.getElementById('navigation').innerHTML = 
+			'<a class="active" href="index.html">TwitterClone</a><a href="login.html">Login</a><a href="register.html">Sign Up</a>';
+        var myData = '';
+        localStorage.setItem('objectToPass', myData);
+        document.getElementById("mybody").innerHTML = '<h1 style="text-align:center;">First Authenticate</h1>';
+        return;
+    }
     var myData = 'username='+params['username'];
     localStorage.setItem('objectToPass', myData);
 	getPosts();

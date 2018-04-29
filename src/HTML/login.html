@@ -173,7 +173,7 @@ input[type=submit]:active {
  function tryLogin() {
    let username = document.getElementById("username").value;
    let password = document.getElementById("password").value;
-   var myData = 'username='+username;
+   var myData = '';
    localStorage.setItem('objectToPass', myData);
    $.ajax({
      type: 'POST',
@@ -182,6 +182,8 @@ input[type=submit]:active {
      dataType: "json",
      success: function(msg) {
        var str1 = "user.html" ;
+       var myData = 'username='+username;
+       localStorage.setItem('objectToPass', myData);
        window.location = str1;
      },
      error: function(){
